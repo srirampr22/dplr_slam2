@@ -9,7 +9,8 @@ Running speed: 20 Hz on Intel NUC, 30 Hz on PC
 ### 1.1 Dandelion detection and map building example
 <p align='center'>
 <a href="https://www.youtube.com/watch?v=4HYE_WGkvp8">
-<img width="65%" src="/img/lc_test5_v3.gif"/>
+<img width="65%" src="/img/lc_test5_v3.png"/>
+<img width="65%" src="/img/lc_test5_v2.png"/>
 </a>
 </p>
 
