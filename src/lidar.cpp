@@ -1,7 +1,3 @@
-// Author of SSL_SLAM2: Wang Han 
-// Email wh200720041@gmail.com
-// Homepage https://wanghan.pro
-
 #include "lidar.h"
 
 lidar::Lidar::Lidar(){

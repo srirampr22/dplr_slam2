@@ -1,7 +1,3 @@
-// Author of SSL_SLAM2: Wang Han 
-// Email wh200720041@gmail.com
-// Homepage https://wanghan.pro
-
 #include "lidarOptimization.h"
 
 EdgeAnalyticCostFunction::EdgeAnalyticCostFunction(Eigen::Vector3d curr_point_, Eigen::Vector3d last_point_a_, Eigen::Vector3d last_point_b_)
