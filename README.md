@@ -5,27 +5,14 @@
 
 Running speed: 20 Hz on Intel NUC, 30 Hz on PC
 
-## 1. Solid-State Lidar Sensor Example
-### 1.1 Scene reconstruction example
+## 1. DPLR_SLAM example
+### 1.1 Dandelion detectiona and map building example
 <p align='center'>
-<a href="https://youtu.be/D2xt_5xm_Ew">
+<a href="https://www.youtube.com/watch?v=4HYE_WGkvp8">
 <img width="65%" src="/img/mapping.gif"/>
 </a>
 </p>
 
-### 1.2 Localization with built map 
-<p align='center'>
-<a href="https://youtu.be/D2xt_5xm_Ew">
-<img width="65%" src="/img/localization.gif"/>
-</a>
-</p>
-
-### 1.3 Comparison
-<p align='center'>
-<a href="https://youtu.be/D2xt_5xm_Ew">
-<img width="65%" src="/img/comparison.gif"/>
-</a>
-</p>
 
 ## 2. Prerequisites
 ### 2.1 **Ubuntu** and **ROS**
@@ -91,29 +78,14 @@ unzip LocalizationTest.zip
 unzip MappingTest.zip
 ```
 
-### 4.3 Map Building
-map optimization and building
-```
-    roslaunch dplr_slam2 dplr_slam2_mapping.launch
-```
-The map optimization is performed based on loop closure, you have to specify the loop clousre manually in order to trigger global optimization. To save map, open a new terminal and 
-```
-  rosservice call /save_map
-```
-Upon calling the serviece, the map will be automatically saved. It is recommended to have a loop closure to reduce the drifts. Once the service is called, loop closure will be checked. 
-For example, in the rosbag provided, the loop closure appears at frame 1060-1120, thus, when you see "total_frame 1070" or "total_frame 1110" you may immediately type 
-```
-  rosservice call /save_map
-```
-Since the current frame is between 1060 and 1120, the loop closure will be triggered automatically and the global map will be optimized and saved 
 
-### 4.4 Localization
+### 4.4 Mapping and Localization
 
 Type
 ```
-    roslaunch dplr_slam2 dplr_slam2_localization.launch
+    roslaunch dplr_slam2 dplr_slam2_mapping.launch
 ```
-If your map is large, it may takes a while to load
+]
 
 ### 4.5 Parameters Explanation
 The map size depends on number of keyframes used. The more keyframes used for map buildin, the larger map will be. 
@@ -123,56 +95,5 @@ min_map_update_angle: angle threshold to add a keyframe. higher means lower upda
 min_map_update_frame: time threshold to add a keyframe. higher means lower update rate. 
 
 
-### 4.6 Relocalization
-The relocalization module under tracking loss is still under development. You must specify the robot init pose w.r.t. the map coordinate if the starting position is not the origin of map. You can set this by  
-```
-    <param name="offset_x" type="double" value="0.0" />
-    <param name="offset_y" type="double" value="0.0" />
-    <param name="offset_yaw" type="double" value="0.0" />
-```
 
-### 4.7 Running speed
-The realsense is running at 30Hz and some computer may not be able to support such high processing rate. You may reduce the processing rate by skipping frames. 
-You can do thid by setting the 
-```
-<param name="skip_frames" type="int" value="1" />
-```
-1 implies no skip frames, i.e., 30Hz;  implies skip 1 frames, i.e., 15Hz. For small map building, you can do it online. however, it is recommended to record a rosbag and build map offline for large mapping since the dense map cannot be generated in real-time.
 
-## 5 Map Building with multiple loop closure places 
-### 5.1 Dataset
-You may download a larger dataset [LargeMappingTest.bag](https://drive.google.com/file/d/18HWUpgv7G6MV6brtbA4uEluTOgxDEdX3/view?usp=sharing) (10G), and by defult the file should be under home/user/Downloads
-
-unzip the file (it may take a while to unzip) 
-```
-cd ~/Downloads
-unzip LargeMappingTest.zip
-```
-
-### 5.2 Map Building
-Two loop closure places appear at frame 0-1260 and 1270-3630, i.e., frame 0 and frame 1260 are the same place, frame 1270 adn 3630 are the same place. Run
-```
-    roslaunch dplr_slam2 dplr_slam2_large_mapping.launch
-```
-open a new terminal, when you see "total_frame 1260", immediately type
-```
-  rosservice call /save_map
-```
-when you see "total_frame 3630", immediately type again
-```
-  rosservice call /save_map
-```
-
-## 6. Citation
-If you use this work for your research, you may want to cite the paper below, your citation will be appreciated 
-```
-@article{wang2021lightweight,
-  author={H. {Wang} and C. {Wang} and L. {Xie}},
-  journal={IEEE Robotics and Automation Letters}, 
-  title={Lightweight 3-D Localization and Mapping for Solid-State LiDAR}, 
-  year={2021},
-  volume={6},
-  number={2},
-  pages={1801-1807},
-  doi={10.1109/LRA.2021.3060392}}
-```
